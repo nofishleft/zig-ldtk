@@ -245,7 +245,7 @@ pub const LayerInstance = struct {
     pub fn fromJSON(alloc: std.mem.Allocator, layer_value: std.json.Value) !LayerInstance {
         const layer_obj = object(layer_value) orelse return error.InvalidLayer;
         const __type = enum_from_value(LayerType, layer_obj.get("__type")) orelse return error.InvalidType;
-        var grid = grid: {
+        const grid = grid: {
             if (__type == .IntGrid) {
                 if (array(layer_obj.get("intGridCsv"))) |intGridCsv| {
                     var grid_list = try std.ArrayList(i64).initCapacity(alloc, intGridCsv.items.len);
@@ -330,7 +330,7 @@ const TileInstance = struct {
 
     pub fn fromJSON(tile_opt: ?std.json.Value) !TileInstance {
         const tile = object(tile_opt) orelse return error.InvalidTileInstance;
-        const f = @intToEnum(FlipBits, integer(tile.get("f")) orelse return error.InvalidFlipBits);
+        const f: FlipBits = @enumFromInt(integer(tile.get("f")) orelse return error.InvalidFlipBits);
         const px = pos_from_value(tile.get("px")) orelse return error.InvalidPx;
         const src = pos_from_value(tile.get("src")) orelse return error.InvalidSrc;
         const t = integer(tile.get("t")) orelse return error.InvalidT;
@@ -683,7 +683,7 @@ fn float(value_opt: ?std.json.Value) ?f64 {
     return switch (value) {
         .float => |a_float| a_float,
         // Integers are valid floats
-        .integer => |int| @intToFloat(f64, int),
+        .integer => |int| @floatFromInt(int),
         else => null,
     };
 }

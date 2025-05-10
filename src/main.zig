@@ -8,7 +8,7 @@ test "load default/empty ldtk file" {
     var ldtk = try LDtk.parse(testing.allocator, empty_ldtk);
     defer ldtk.deinit();
 
-    var ldtk_root = ldtk.root;
+    const ldtk_root = ldtk.root;
 
     try testing.expectEqualStrings("1.1.3", ldtk_root.jsonVersion);
     try testing.expectEqualStrings("#40465B", ldtk_root.bgColor);

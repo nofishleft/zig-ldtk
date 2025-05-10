@@ -1,0 +1,13 @@
+.{
+    .name = .zig_ldtk,
+    .version = "0.0.0",
+    .minimum_zig_version = "0.14.0",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "LICENSE",
+        "README.md",
+        "src/",
+    },
+    .fingerprint = 0x4633139ad0347ff0,
+}
